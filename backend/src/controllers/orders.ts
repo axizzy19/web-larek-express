@@ -6,6 +6,15 @@ import BadRequestError from '../errors/bad-request-error';
 const createOrder = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const {
+      items,
+    } = req.body;
+    const products = await Product.find({ _id: { $in: items } });
+    const orderId = faker.string.uuid();
+    const calculatedTotal = products.reduce((sum, product) => sum + (product.price || 0), 0);
+
+    return res.status(201).send({ id: orderId, total: calculatedTotal });
+  } catch (error) {
+    const {
       payment, email, phone, address, total, items,
     } = req.body;
 
@@ -37,10 +46,6 @@ const createOrder = async (req: Request, res: Response, next: NextFunction) => {
       return next(new BadRequestError(`Сумма заказа не совпадает. Ожидалось: ${calculatedTotal}`));
     }
 
-    const orderId = faker.string.uuid();
-
-    return res.status(201).send({ id: orderId, total: calculatedTotal });
-  } catch (error) {
     return next(error);
   }
 };
