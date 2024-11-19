@@ -14,7 +14,8 @@ const errorHandler = (err: Error, _req: Request, res: Response, _next: NextFunct
 
   console.error('Необработанная ошибка:', err);
 
-  return res.status(500).send({ message: 'На сервере произошла ошибка' });
+  // return res.status(500).send({ message: 'На сервере произошла ошибка' });
+  return res.status(500).send({ message: err.message });
 };
 
 export default errorHandler;

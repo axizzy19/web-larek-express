@@ -6,7 +6,7 @@ import BadRequestError from '../errors/bad-request-error';
 export const getProducts = async (_req: Request, res: Response, next: NextFunction) => {
   try {
     const products = await Product.find({});
-    return res.status(201).send({ data: products });
+    return res.status(200).send({ data: products });
   } catch (error: any) {
     return next(error);
   }
@@ -21,7 +21,7 @@ export const createProduct = async (req: Request, res: Response, next: NextFunct
     const product = await Product.create({
       image, title, category, description, price,
     });
-    return res.status(201).send({ data: product });
+    return res.status(200).send({ data: product });
   } catch (error: any) {
     if (error.message.includes('E11000')) {
       return next(new ConflictError('Продукт с таким заголовком уже существует'));
