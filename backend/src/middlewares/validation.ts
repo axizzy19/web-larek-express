@@ -3,7 +3,8 @@ import Joi from 'joi';
 
 export const createProductValidation = celebrate({
   [Segments.BODY]: Joi.object().keys({
-    title: Joi.string().min(2).max(30).required().allow('')
+    title: Joi.string().min(2).max(30).required()
+      .allow('')
       .messages({
         // 'string.empty': 'Поле "title" должно быть заполнено',
         'strings.min': 'Минимальная длина поля "title" - 2',
