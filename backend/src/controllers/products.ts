@@ -5,7 +5,7 @@ import ConflictError from '../errors/conflict-error';
 export const getProducts = async (_req: Request, res: Response, next: NextFunction) => {
   try {
     const products = await Product.find({});
-    return res.status(200).json({
+    return res.json({
       items: products,
       total: products.length,
     });
@@ -23,7 +23,7 @@ export const createProduct = async (req: Request, res: Response, next: NextFunct
     const product = await Product.create({
       image, title, category, description, price,
     });
-    return res.status(200).json({ data: product });
+    return res.status(201).json({ data: product });
   } catch (error: any) {
     if (error.message.includes('E11000')) {
       return next(new ConflictError('Продукт с таким заголовком уже существует'));
